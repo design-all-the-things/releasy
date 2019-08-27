@@ -18,6 +18,8 @@ Here is a couple of feedbacks, or maybe lessons:
 - We may have started an Event Storming session too early in the process. We lack a clear understanding of what problem we wanted to solve, how our solution could solve that problem, and for whom. That may explain how _long_ our Event Storming was. But interestingly, this has also make it very explicit, so we didn't hesitate to make a pause on our session and try another workshop, to get a different view on our problem.
 - The fact that our session was sliced, and with attendees turn over can also explain why it takes so much time. But at least, we could use it to tell our story to the new ones, and it helped us better understanding it, time after time.
 
+You can find [the result here](design/event-storming/big-picture.md).
+
 ## Story Mapping
 
 At some point, we thought that we missed a view of what was important, and what could make a good impact throughout our journey to the solution. We wondered what was core in our domain.
