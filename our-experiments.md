@@ -54,3 +54,4 @@ To get better insights, we had an _Example Mapping_ session on it. In the beginn
 A few feedbacks:
 
 - We should capture every idea by writing an example, even if it's thrown away later because it's irrelevant. At least, use a red card to write down a question. This helps being more exhaustive, and avoid forgetting things later on, once the workshop is over.
+
