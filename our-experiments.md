@@ -31,6 +31,8 @@ Here's some feedbacks about this workshop:
 - Start with **WHY**, and probably _WHO_. Best advice ever. And it will help you be more accurate and probably more efficient
 - If we were not so exhaustive, at least, it leaded us to a minimal story to tell in our solution, which is exactly what we expected from the workshop in the first place. We have recorded everything in a trello board, and we will be able to continue it later.
 
+Our Story Mapping session has been captured in [this opened Trello board](https://trello.com/b/ZotT81x6/story-map).
+
 ## Context Mapping
 
 Once we had enough insights with the Big Picture Event Storming, we tried to figure out what was the main Bounded Contexts in our domain. So we identified a couple of key events on which the whole workflow was articulated. This helped us identify a few of them.
