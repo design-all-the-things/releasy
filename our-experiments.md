@@ -49,6 +49,8 @@ Some feedbacks we got:
 - As other workshops, Context Mapping can (has to?) be done iteratively. Getting insights from other perspectives helps being more relevant when practicing it.
 - We tried to follow [Nick Tune's context canvas](https://medium.com/nick-tune-tech-strategy-blog/modelling-bounded-contexts-with-the-bounded-context-design-canvas-a-workshop-recipe-1f123e592ab), but we didn't fully followed it for now. At least, it inspired us to start describing our bounded contexts.
 
+You can access the result [here, in the dedicated section](design/contexts-ul/context-map.jpg).
+
 ## Example Mapping
 
 As we moved forward, and after 6 or 7 meetings, we wanted to go deeper in the product, and start delving into a first feature, the one we identified as the most important for now.
