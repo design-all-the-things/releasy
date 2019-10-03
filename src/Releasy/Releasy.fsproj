@@ -10,6 +10,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Development/Model.fs" />
+    <Compile Include="Development/Domain.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
