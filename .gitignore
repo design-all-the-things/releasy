@@ -27,3 +27,6 @@ bin
 .ionide
 
 # End of https://www.gitignore.io/api/fsharp
+
+### Jetbrains Rider ###
+.idea
