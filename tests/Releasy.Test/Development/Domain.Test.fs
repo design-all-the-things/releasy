@@ -33,4 +33,18 @@ let tests =
       | MRLinkedToFeature event ->
           Expect.equal event.mergeRequest mergeRequestWhichClosesAFeature "Wrong MR"
       | _ -> Expect.isTrue false "Wrong event type"
+
+    testCase "should define the feature identifier" <| fun _ ->
+      let featureIdentifier = "https://trello.com/c/INfJJRKk/1-link-mr-to-close-a-feature-using-closes-or-fixes"
+      let mergeRequestWhichClosesAFeature =
+        {
+          title = "Test";
+          description = "This PR closes " + featureIdentifier;
+          url = new Uri("https://github.com/xxxx/42")
+        }
+      let mrLinkEvent = linkMergeRequestToFeature mergeRequestWhichClosesAFeature
+      match mrLinkEvent with 
+      | MRLinkedToFeature event ->
+          Expect.equal event.featureIdentifier featureIdentifier "Wrong Identifier"
+      | _ -> Expect.isTrue false "Wrong event type"
   ]
