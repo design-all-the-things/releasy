@@ -20,4 +20,17 @@ let tests =
       match mrLinkEvent with 
       | MRNotLinkedToAnyFeature event -> Expect.equal event.mergeRequest mergeRequest "Wrong MR"
       | _ -> Expect.isTrue false "Wrong event type"
+
+    testCase "should link MR to feature" <| fun _ ->
+      let mergeRequestWhichClosesAFeature =
+        {
+          title = "Test";
+          description = "This PR closes https://trello.com/c/INfJJRKk/1-link-mr-to-close-a-feature-using-closes-or-fixes";
+          url = new Uri("https://github.com/xxxx/42")
+        }
+      let mrLinkEvent = linkMergeRequestToFeature mergeRequestWhichClosesAFeature
+      match mrLinkEvent with 
+      | MRLinkedToFeature event ->
+          Expect.equal event.mergeRequest mergeRequestWhichClosesAFeature "Wrong MR"
+      | _ -> Expect.isTrue false "Wrong event type"
   ]
