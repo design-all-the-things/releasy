@@ -33,7 +33,7 @@ let tests =
         }
       let mrLinkEvent = linkMergeRequestToFeature mergeRequest
       match mrLinkEvent with 
-      | MRNotLinkedToAnyFeature event -> Expect.equal event.mergeRequest mergeRequest "Wrong MR"
+      | MRNotLinkedToFeature event -> Expect.equal event.mergeRequest mergeRequest "Wrong MR"
       | _ -> Expect.isTrue false "Wrong event type"
 
     testCase "should link MR to feature" <| fun _ ->

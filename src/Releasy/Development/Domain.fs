@@ -12,5 +12,5 @@ let linkMergeRequestToFeature (mergeRequest: MergeRequest) : MRLinkedEvent =
     match mergeRequest.description with
     | Regex @"clos(?:es?|ing)\s+(\S*)" [ featureIdentifier ] ->
         MRLinkedToFeature { mergeRequest = mergeRequest; featureIdentifier = featureIdentifier }
-    | _ -> MRNotLinkedToAnyFeature { mergeRequest = mergeRequest }
+    | _ -> MRNotLinkedToFeature { mergeRequest = mergeRequest }
  

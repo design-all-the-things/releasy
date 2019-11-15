@@ -9,17 +9,18 @@ type MergeRequest =
         url: Uri
     }
 
-type MRLinkedToFeatureEvent =
+type MRLinkedEvent =
+    | MRLinkedToFeature of MRLinkedToFeature
+    | MRNotLinkedToFeature of MRNotLinkedToFeature
+
+and MRLinkedToFeature =
     {
       mergeRequest: MergeRequest
       featureIdentifier: string
     }
 
-type MRNotLinkedToAnyFeatureEvent =
+and MRNotLinkedToFeature =
     {
       mergeRequest: MergeRequest
     }
-
-type MRLinkedEvent =
-    | MRLinkedToFeature of MRLinkedToFeatureEvent
-    | MRNotLinkedToAnyFeature of MRNotLinkedToAnyFeatureEvent
+    
