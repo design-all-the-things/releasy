@@ -16,10 +16,9 @@ let linkMergeRequestToFeatureShouldLinkMRToFeature (mrDescription: string): Unit
       url = new Uri("https://github.com/xxxx/42")
     }
   let mrLinkEvent = linkMergeRequestToFeature mergeRequestWhichClosesAFeature
-  match mrLinkEvent with 
-  | MRLinkedToFeature event ->
-      Expect.equal event.featureIdentifier featureIdentifier "Wrong Identifier"
-  | _ -> Expect.isTrue false ("Wrong event type for " + mrDescription)
+  
+  let expectedEvent = MRLinkedToFeature { mergeRequest = mergeRequestWhichClosesAFeature; featureIdentifier = featureIdentifier }
+  Expect.equal mrLinkEvent expectedEvent "Wrong identifier"
 
 [<Tests>]
 let tests =
@@ -32,9 +31,9 @@ let tests =
           url = new Uri("https://github.com/xxxx/42")
         }
       let mrLinkEvent = linkMergeRequestToFeature mergeRequest
-      match mrLinkEvent with 
-      | MRNotLinkedToFeature event -> Expect.equal event.mergeRequest mergeRequest "Wrong MR"
-      | _ -> Expect.isTrue false "Wrong event type"
+
+      let expectedEvent = MRNotLinkedToFeature { mergeRequest = mergeRequest }
+      Expect.equal mrLinkEvent expectedEvent "Wrong MR"
 
     testCase "should link MR to feature" <| fun _ ->
       let mergeRequestWhichClosesAFeature =
@@ -44,10 +43,9 @@ let tests =
           url = new Uri("https://github.com/xxxx/42")
         }
       let mrLinkEvent = linkMergeRequestToFeature mergeRequestWhichClosesAFeature
-      match mrLinkEvent with 
-      | MRLinkedToFeature event ->
-          Expect.equal event.mergeRequest mergeRequestWhichClosesAFeature "Wrong MR"
-      | _ -> Expect.isTrue false "Wrong event type"
+
+      let expectedEvent = MRLinkedToFeature { mergeRequest = mergeRequestWhichClosesAFeature; featureIdentifier = featureIdentifier }
+      Expect.equal mrLinkEvent expectedEvent "Wrong MR"
 
     testCase "should link MR to feature with `xxx closes <id>`" <| fun _ -> 
       linkMergeRequestToFeatureShouldLinkMRToFeature ("This PR closes " + featureIdentifier)
