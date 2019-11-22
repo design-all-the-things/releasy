@@ -12,6 +12,7 @@ bin
 /build/
 *.exe
 !.paket/paket.bootstrapper.exe
+packages/
 
 ### VisualStudioCode ###
 .vscode/*

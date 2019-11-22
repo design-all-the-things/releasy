@@ -1,9 +1,7 @@
 module Releasy.App
 
 open System
-open System.IO
 open Microsoft.AspNetCore.Builder
-open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
@@ -12,6 +10,9 @@ open FSharp.Control.Tasks.V2.ContextInsensitive
 open Giraffe
 open System.Security.Cryptography
 open System.Text
+open Releasy.Development.Domain
+open Releasy.Development.Model
+open Releasy.Development.ACL.Github
 
 // ---------------------------------
 // Models
@@ -51,9 +52,13 @@ let handlePostGithub (secret: string) (next : HttpFunc) (ctx : HttpContext) = ta
         if computedSignature.Equals(signature, StringComparison.CurrentCultureIgnoreCase) |> not then
             return! RequestErrors.BAD_REQUEST "Invalid signature" next ctx
         else     
-            printfn "payload %s" payload
+            let! payload = ctx.BindJsonAsync<WebHookPayload>()
+            let mrLinkedEvent = fromPayloadToMergeRequest payload |> linkMergeRequestToFeature 
+            match mrLinkedEvent with
+            | MRLinkedToFeature m -> printfn "MRLinkedToFeature %s" m.featureIdentifier
+            | MRNotLinkedToFeature _ -> printfn "HO NO (ノಥ,_｣ಥ)ノ彡┻━┻"
 
-            return! Successful.OK "" next ctx
+            return! Successful.OK "Ok" next ctx
 }
 
 // ---------------------------------
