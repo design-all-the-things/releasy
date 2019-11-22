@@ -18,6 +18,7 @@
     </Content>
     <Compile Include="Development/Model.fs" />
     <Compile Include="Development/Domain.fs" />
+    <Compile Include="Development/ACL/Github.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
