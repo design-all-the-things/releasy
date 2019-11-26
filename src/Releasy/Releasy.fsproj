@@ -2,11 +2,10 @@
   <PropertyGroup>
     <AssemblyName>Releasy</AssemblyName>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Giraffe" Version="3.4.*" />
     <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
   </ItemGroup>
@@ -20,10 +19,5 @@
     <Compile Include="Development/Domain.fs" />
     <Compile Include="Development/ACL/Github.fs" />
     <Compile Include="Program.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.*" />
-    <PackageReference Include="Giraffe" Version="3.4.*" />
-    <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
   </ItemGroup>
 </Project>
