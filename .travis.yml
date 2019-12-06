@@ -1,0 +1,10 @@
+language: fsharp
+mono: none
+dotnet: 3.0.100
+
+script:
+  - dotnet tool restore
+  - dotnet paket restore
+  - dotnet build src/Releasy
+  - dotnet build tests/Releasy.Test
+  - dotnet run -p tests/Releasy.Test
