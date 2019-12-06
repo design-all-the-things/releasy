@@ -1,5 +1,7 @@
 # Releasy
 
+[![Build Status](https://travis-ci.org/design-all-the-things/releasy.png)](https://travis-ci.org/design-all-the-things/releasy)
+
 Web app to follow release workflow, from feature declaration to production
 
 ## Design
