@@ -16,3 +16,9 @@ As we explain in [our journey through this initiative](our-experiments.md), we m
 If you want to join the initiative and know more about releasy, please read [the dedicated page](join-us.md)
 
 You can also have a look to [a quick feedback of the initiative](our-experiments.md), from day 0 until now.
+
+## Build
+
+We need the `.NET Core` at least version `3.0`.
+You can use the Makefile to build the project and run the tests using `make build` and `make tests`.
+The `make help` will give you all the available commands.
