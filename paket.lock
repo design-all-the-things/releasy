@@ -4,8 +4,25 @@ NUGET
     Expecto (8.13.1)
       FSharp.Core (>= 4.3.4)
       Mono.Cecil (>= 0.11)
+    FsConfig (2.1.5)
+      FSharp.Core (>= 4.2.3)
+      Microsoft.Extensions.Configuration
+      TypeShape (>= 8.0)
     FSharp.Core (4.7)
+    Microsoft.Extensions.Configuration (3.1)
+      Microsoft.Extensions.Configuration.Abstractions (>= 3.1)
+    Microsoft.Extensions.Configuration.Abstractions (3.1)
+      Microsoft.Extensions.Primitives (>= 3.1)
+    Microsoft.Extensions.Primitives (3.1)
+      System.Memory (>= 4.5.2)
+      System.Runtime.CompilerServices.Unsafe (>= 4.7)
     Mono.Cecil (0.11.1)
+    System.Memory (4.5.3)
+    System.Reflection.Emit.Lightweight (4.7)
+    System.Runtime.CompilerServices.Unsafe (4.7)
+    TypeShape (8.0.1)
+      FSharp.Core (>= 4.3.4)
+      System.Reflection.Emit.Lightweight (>= 4.3)
 
 GROUP Build
 NUGET
