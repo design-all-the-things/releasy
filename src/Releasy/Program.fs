@@ -14,6 +14,7 @@ open System.Text
 open Releasy.Development.Domain
 open Releasy.Development.Model
 open Releasy.Development.ACL.Github
+open Releasy.FeatureManagement.ACL.Trello
 
 // ---------------------------------
 // Models
@@ -28,18 +29,23 @@ type Message =
 // Helpers
 // ---------------------------------
 
-let computeGithubSignature (secret: string) (payload: string) : string = 
+let computeGithubSignature (secret: string) (payload: string) : string =
     use hmacSh1 = new HMACSHA1(Encoding.ASCII.GetBytes(secret))
-    let hash = 
+    let hash =
         hmacSh1.ComputeHash(Encoding.ASCII.GetBytes(payload))
                 |> Array.map (fun (x : byte) -> System.String.Format("{0:X2}", x))
                 |> String.concat String.Empty
 
     sprintf "sha1=%s" hash
-                
+
 // ---------------------------------
 // Handlers
 // ---------------------------------
+
+let printAndCallTrello (event : MRLinkedToFeature) = task {
+    printfn "MRLinkedToFeature %s" event.featureIdentifier
+    return linkMergeRequestToFeatureInTrello
+}
 
 let handlePostGithub (secret: string) (next : HttpFunc) (ctx : HttpContext) = task {
     match ctx.GetRequestHeader "X-Hub-Signature" with
@@ -52,11 +58,11 @@ let handlePostGithub (secret: string) (next : HttpFunc) (ctx : HttpContext) = ta
 
         if computedSignature.Equals(signature, StringComparison.CurrentCultureIgnoreCase) |> not then
             return! RequestErrors.BAD_REQUEST "Invalid signature" next ctx
-        else     
+        else
             let! payload = ctx.BindJsonAsync<WebHookPayload>()
-            let mrLinkedEvent = fromPayloadToMergeRequest payload |> linkMergeRequestToFeature 
+            let mrLinkedEvent = fromPayloadToMergeRequest payload |> linkMergeRequestToFeature
             match mrLinkedEvent with
-            | MRLinkedToFeature m -> printfn "MRLinkedToFeature %s" m.featureIdentifier
+            | MRLinkedToFeature m -> printAndCallTrello m |> ignore
             | MRNotLinkedToFeature _ -> printfn "HO NO (ノಥ,_｣ಥ)ノ彡┻━┻"
 
             return! Successful.OK "Ok" next ctx
@@ -113,7 +119,7 @@ let configureLogging (builder : ILoggingBuilder) =
 
 [<EntryPoint>]
 let main _ =
-    let port = 
+    let port =
         match Environment.GetEnvironmentVariable("PORT") with
         | null -> "8080"
         | port -> port

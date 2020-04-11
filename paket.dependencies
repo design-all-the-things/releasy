@@ -2,7 +2,10 @@ source https://www.nuget.org/api/v2
 
 framework: auto-detect
 nuget Expecto
+nuget FSConfig
 nuget FSharp.Core
+nuget Http.fs
+nuget TypeShape
 
 group Build
 source https://www.nuget.org/api/v2
