@@ -4,3 +4,4 @@ Http.fs
 TypeShape
 Giraffe
 TaskBuilder.fs
+FsToolkit.ErrorHandling

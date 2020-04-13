@@ -4,6 +4,7 @@ framework: auto-detect
 nuget Expecto
 nuget FSConfig
 nuget FSharp.Core
+nuget FsToolkit.ErrorHandling
 nuget Giraffe
 nuget Http.fs
 nuget TypeShape

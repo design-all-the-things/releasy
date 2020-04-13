@@ -9,6 +9,8 @@ NUGET
       Microsoft.Extensions.Configuration
       TypeShape (>= 8.0)
     FSharp.Core (4.7.1)
+    FsToolkit.ErrorHandling (1.2.6)
+      FSharp.Core (>= 4.6.2)
     Giraffe (4.1)
       FSharp.Core (>= 4.7)
       Microsoft.IO.RecyclableMemoryStream (>= 1.2.2)
