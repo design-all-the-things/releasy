@@ -1,19 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <AssemblyName>Releasy</AssemblyName>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FsConfig" Version="2.1.5" />
-    <PackageReference Include="Hopac" Version="0.4.1" />
-    <PackageReference Include="Http.fs" Version="5.3.0" />
-    <PackageReference Include="TypeShape" Version="8.0.1" />
-    <PackageReference Include="Giraffe" Version="3.4.*" />
-    <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
-  </ItemGroup>
-
   <ItemGroup>
     <None Include="web.config" />
     <Content Include="WebRoot/**/*">
@@ -26,4 +17,5 @@
     <Compile Include="FeatureManagement/ACL/Trello.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
