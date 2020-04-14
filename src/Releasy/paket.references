@@ -5,3 +5,4 @@ TypeShape
 Giraffe
 TaskBuilder.fs
 FsToolkit.ErrorHandling
+FsToolkit.ErrorHandling.JobResult
