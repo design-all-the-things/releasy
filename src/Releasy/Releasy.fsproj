@@ -14,7 +14,7 @@
     <Compile Include="Development/Domain.fs" />
     <Compile Include="Development/ACL/Github.fs" />
     <Compile Include="FeatureManagement/Model.fs" />
-    <Compile Include="FeatureManagement/ACL/Trello.fs" />
+    <Compile Include="FeatureManagement/ACL/Trello/Service.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

@@ -1,4 +1,4 @@
-module Releasy.FeatureManagement.ACL.Trello
+module Releasy.FeatureManagement.ACL.Trello.Service
 
 open System
 open FsConfig

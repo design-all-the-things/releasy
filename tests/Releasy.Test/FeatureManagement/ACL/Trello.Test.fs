@@ -2,7 +2,7 @@ module Releasy.FeatureManagement.ACL.Trello.Test
 
 open System
 open Expecto
-open Releasy.FeatureManagement.ACL.Trello
+open Releasy.FeatureManagement.ACL.Trello.Service
 open FsToolkit.ErrorHandling
 open System.Threading.Tasks
 

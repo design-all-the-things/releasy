@@ -14,7 +14,7 @@ open System.Text
 open Releasy.Development.Domain
 open Releasy.Development.Model
 open Releasy.Development.ACL.Github
-open Releasy.FeatureManagement.ACL.Trello
+open Releasy.FeatureManagement.ACL.Trello.Service
 
 // ---------------------------------
 // Models
