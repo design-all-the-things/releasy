@@ -6,11 +6,14 @@ open Releasy.FeatureManagement.Model
 open Hopac
 open HttpFs.Client
 open FsToolkit.ErrorHandling
+open Releasy.FeatureManagement.ACL.Trello.Model
+open Thoth.Json
 
 type TrelloError =
   | NetworkError of e:exn
   | RequestError of message:string
   | ConfigError of ConfigParseError
+  | DecodeError of string
 
 [<Convention("RELEASY_TRELLO")>]
 type TrelloConfig = {
@@ -35,10 +38,11 @@ let checkOrCreateChecklist (config : TrelloConfig) =
     |> tryGetResponse
     |> Job.map (Choice.toResult >> (Result.mapError NetworkError))
     |> JobResult.bind bodyOn2xxOr3xx
+    |> Job.map (Result.bind (Decode.fromString (Decode.array CheckList.Decode) >> Result.mapError DecodeError))
     |> Job.toAsync
 
 let linkMergeRequestToFeatureInTrello = asyncResult {
   let! config = readConfig
-  let! checklist = checkOrCreateChecklist config
-  printfn "API KEY: %s, checklist: %s" config.ApiKey checklist
+  let! checklists = checkOrCreateChecklist config
+  printfn "API KEY: %s, checklist: %s" config.ApiKey (checklists |> Array.head |> (fun c -> c.name))
 }

@@ -1,0 +1,50 @@
+[
+   {
+      "id":"5dd7d1be5af79c3e6b709a1e",
+      "name":"Testing Checklist",
+      "idCard":"5d67bdb6e6fe5a5fa40339c2",
+      "pos":16384,
+      "idBoard":"5d67bac0e7cb6f518a05518f",
+      "checkItems":[
+         {
+            "idChecklist":"5dd7d1be5af79c3e6b709a1e",
+            "state":"complete",
+            "idMember":null,
+            "id":"5dd7d1da55b75a5e289f7a9e",
+            "name":":smile: PR #34 : Mise à jour ",
+            "nameData":null,
+            "pos":16631,
+            "due":null
+         },
+         {
+            "idChecklist":"5dd7d1be5af79c3e6b709a1e",
+            "state":"incomplete",
+            "idMember":null,
+            "id":"5dd7d1e4b2d29c8783fa61ea",
+            "name":"PR #45 : Delete",
+            "nameData":null,
+            "pos":33347,
+            "due":null
+         },
+         {
+            "idChecklist":"5dd7d1be5af79c3e6b709a1e",
+            "state":"incomplete",
+            "idMember":null,
+            "id":"5dd7d48f8596301dece0edbd",
+            "name":"https://github.com/design-all-the-things/test-repo/pull/1",
+            "nameData":null,
+            "pos":50313,
+            "due":null
+         }
+      ]
+   },
+   {
+      "id":"5dfcb2e2b084d947fb3f3047",
+      "name":"Empty Checklist",
+      "idCard":"5d67bdb6e6fe5a5fa40339c2",
+      "pos":32768,
+      "idBoard":"5d67bac0e7cb6f518a05518f",
+      "checkItems":[
+      ]
+   }
+]

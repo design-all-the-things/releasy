@@ -8,6 +8,7 @@ nuget FsToolkit.ErrorHandling
 nuget FsToolkit.ErrorHandling.JobResult
 nuget Giraffe
 nuget Http.fs
+nuget Thoth.Json
 nuget TypeShape
 
 group Build
