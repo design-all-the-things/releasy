@@ -7,7 +7,7 @@ open Hopac
 open HttpFs.Client
 open FsToolkit.ErrorHandling
 open Releasy.FeatureManagement.ACL.Trello.Model
-open Thoth.Json
+open Thoth.Json.Net
 
 type TrelloError =
   | NetworkError of e:exn
@@ -43,6 +43,7 @@ let checkOrCreateChecklist (config : TrelloConfig) =
 
 let linkMergeRequestToFeatureInTrello = asyncResult {
   let! config = readConfig
+  printfn "API KEY: %s" config.ApiKey
   let! checklists = checkOrCreateChecklist config
-  printfn "API KEY: %s, checklist: %s" config.ApiKey (checklists |> Array.head |> (fun c -> c.name))
+  printfn "checklist: %s" (checklists |> Array.head |> (fun c -> c.name))
 }

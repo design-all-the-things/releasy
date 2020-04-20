@@ -2,7 +2,7 @@ module Releasy.FeatureManagement.ACL.Trello.Model.Test
 
 open Expecto
 open Releasy.FeatureManagement.ACL.Trello.Model
-open Thoth.Json
+open Thoth.Json.Net
 
 [<Tests>]
 let testCheckItem =

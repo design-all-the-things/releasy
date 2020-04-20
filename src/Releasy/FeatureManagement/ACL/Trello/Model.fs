@@ -1,6 +1,6 @@
 module Releasy.FeatureManagement.ACL.Trello.Model
 
-open Thoth.Json
+open Thoth.Json.Net
 
 type ItemState =
   | Complete

@@ -6,4 +6,4 @@ Giraffe
 TaskBuilder.fs
 FsToolkit.ErrorHandling
 FsToolkit.ErrorHandling.JobResult
-Thoth.Json
+Thoth.Json.Net
