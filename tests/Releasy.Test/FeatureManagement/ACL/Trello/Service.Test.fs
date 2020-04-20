@@ -1,4 +1,4 @@
-module Releasy.FeatureManagement.ACL.Trello.Test
+module Releasy.FeatureManagement.ACL.Trello.Service.Test
 
 open System
 open Expecto

@@ -10,7 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Development/Domain.Test.fs" />
-    <Compile Include="FeatureManagement/ACL/Trello.Test.fs" />
+    <Compile Include="FeatureManagement/ACL/Trello/Service.Test.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
