@@ -9,8 +9,11 @@ build: restore ## Build the whole project
 run: build ## Run the program
 	dotnet run -p src/Releasy
 
-tests: build ## Run unit tests
-	dotnet run -p tests/Releasy.Test
+tests: ## Run unit tests
+	dotnet run -p tests/Releasy.Test -f netcoreapp3.0 -c release -- --summary
+
+tests-watch: ## Watch code changes and run unit tests
+	dotnet watch -p tests/Releasy.Test run -f netcoreapp3.0 -c release -- --colours 256
 
 clean: ## Clean the whole project
 	dotnet clean src/Releasy
