@@ -46,7 +46,7 @@ let couple a = (a, a)
 
 let makeLink (listCheckLists: Async<Result<CheckList array, TrelloError>>)
              (createFeatureProgressCheckList: CardShortId -> Async<Result<CheckList, TrelloError>>)
-             (createCheckItem: string -> string -> Async<Result<CheckItem, TrelloError>>)
+             (createCheckItem: CheckListId -> CheckItemName -> Async<Result<CheckItem, TrelloError>>)
              (mergeRequest: MergeRequest)
              : Async<Result<unit, TrelloError>> =
   listCheckLists
@@ -54,10 +54,10 @@ let makeLink (listCheckLists: Async<Result<CheckList array, TrelloError>>)
     |> AsyncResult.bind (function
                           | Some checkList -> checkList |> AsyncResult.retn
                           | None -> createFeatureProgressCheckList "6QrSHK8z")
-    |> AsyncResult.map (couple >> mapItem2 (findCheckItem mergeRequest.url))
+    |> AsyncResult.map (couple >> mapItem2 (findCheckItem mergeRequest.url.OriginalString))
     |> AsyncResult.bind (function
                           | _, Some checkItem -> checkItem |> AsyncResult.retn
-                          | checkList, None -> createCheckItem checkList.id mergeRequest.url)
+                          | checkList, None -> createCheckItem checkList.id mergeRequest.url.OriginalString)
     |> AsyncResult.map ignore
 
 let linkMergeRequestToFeatureInTrello = asyncResult {

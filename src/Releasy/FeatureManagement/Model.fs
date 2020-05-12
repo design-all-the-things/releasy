@@ -7,5 +7,5 @@ type Feature = {
 }
 
 type MergeRequest = {
-  url : string
+  url : Uri
 }

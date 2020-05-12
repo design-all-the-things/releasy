@@ -13,9 +13,10 @@ type ItemState =
           | "incomplete" -> Decode.succeed Incomplete
           | state -> Decode.fail (sprintf "Unknown state %s" state))
 
+type CheckItemName = string
 type CheckItem =
   { id: string
-    name: string
+    name: CheckItemName
     state: ItemState }
 
   static member Decode : Decoder<CheckItem> =

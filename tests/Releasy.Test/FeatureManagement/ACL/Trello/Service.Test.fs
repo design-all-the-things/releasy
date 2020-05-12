@@ -17,8 +17,8 @@ let testsLinkMRToFeature =
         |> (fun result -> Expect.isOk result "The result should not be an error")
   ]
 
-let mergeRequest42 = { url = "https://github.com/design-all-the-things/test-repo/pull/42" }
-let mergeRequest1 = { url = "https://github.com/design-all-the-things/test-repo/pull/1" }
+let mergeRequest42 = { url = Uri "https://github.com/design-all-the-things/test-repo/pull/42" }
+let mergeRequest1 = { url = Uri "https://github.com/design-all-the-things/test-repo/pull/1" }
 
 let validCheckList : CheckList = {
   id = "5dd7d1be5af79c3e6b709a1e";
