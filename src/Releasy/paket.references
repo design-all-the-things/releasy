@@ -7,3 +7,4 @@ TaskBuilder.fs
 FsToolkit.ErrorHandling
 FsToolkit.ErrorHandling.JobResult
 Thoth.Json.Net
+FSharpPlus

@@ -4,6 +4,7 @@ framework: auto-detect
 nuget Expecto
 nuget FSConfig
 nuget FSharp.Core
+nuget FSharpPlus
 nuget FsToolkit.ErrorHandling
 nuget FsToolkit.ErrorHandling.JobResult
 nuget Giraffe

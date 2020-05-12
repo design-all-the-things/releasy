@@ -27,8 +27,11 @@ type CheckItem =
             }
         )
 
+type CardShortId = string
+type CheckListId = string
+
 type CheckList =
-  { id: string
+  { id: CheckListId
     name: string
     idCard: string
     checkItems: CheckItem[]
@@ -43,3 +46,9 @@ type CheckList =
             checkItems = get.Required.Field "checkItems" (Decode.array CheckItem.Decode)
         }
       )
+
+let FEATURE_PROGRESS_CHECKLIST_NAME = "Feature Progress (🔒 by Releasy)";
+
+let findCheckItem name checkList = Array.tryFind (fun (c: CheckItem) -> c.name = name) checkList.checkItems
+
+let isFeatureProgressCheckList checkList = checkList.name = FEATURE_PROGRESS_CHECKLIST_NAME
