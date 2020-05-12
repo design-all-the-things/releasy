@@ -122,3 +122,22 @@ let testsLinkProcess =
         |> Async.RunSynchronously
         |> (fun result -> Expect.isError result "create check item has failed. The result should be in error")
   ]
+
+[<Tests>]
+let testsToTrelloId =
+  testList "toTrelloId" [
+    testCase "should return the id if it is not a URI" <| fun _ ->
+      let featureId = "toto"
+      let cardId = featureId |> toTrelloId
+      Expect.equal cardId featureId "Wrong cardId extraction"
+
+    testCase "should return the feature id if it is not a trello card URI" <| fun _ ->
+      let featureId = "https://trello.com/b/efb4q0WW/releasy"
+      let cardId = featureId |> toTrelloId
+      Expect.equal cardId featureId "Wrong cardId extraction"
+
+    testCase "should return the card id if it is a trello URI" <| fun _ ->
+      let featureId = "https://trello.com/c/INfJJRKk/1-link-mr-to-close-a-feature-using-closes-or-fixes"
+      let cardId = featureId |> toTrelloId
+      Expect.equal cardId "INfJJRKk" "Wrong cardId extraction"
+  ]

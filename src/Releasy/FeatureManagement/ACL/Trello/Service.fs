@@ -1,6 +1,7 @@
 module Releasy.FeatureManagement.ACL.Trello.Service
 
 open System
+open System.Text.RegularExpressions
 open FsConfig
 open Releasy.FeatureManagement.Model
 open Hopac
@@ -43,6 +44,21 @@ let listCheckLists (config : TrelloConfig) =
     |> Job.toAsync
 
 let couple a = (a, a)
+
+let (|Regex|_|) pattern input =
+    let regexMatch = Regex.Match(input, pattern, RegexOptions.IgnoreCase)
+    if regexMatch.Success then Some(List.tail [ for g in regexMatch.Groups -> g.Value ])
+    else None
+
+let extractCardId (cardUri: Uri) =
+  match cardUri.OriginalString with
+    | Regex @"trello.com/c/([^/]*)" [ cardId ] -> cardId
+    | _ -> cardUri.OriginalString
+
+let toTrelloId featureId : CardShortId =
+  featureId
+    |> Result.protect Uri 
+    |> either extractCardId (konst featureId)
 
 let makeLink (listCheckLists: Async<Result<CheckList array, TrelloError>>)
              (createFeatureProgressCheckList: CardShortId -> Async<Result<CheckList, TrelloError>>)
