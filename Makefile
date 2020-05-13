@@ -1,8 +1,10 @@
 restore: ## Restore project dependencies
+	dotnet restore src/Releasy.Common
 	dotnet restore src/Releasy
 	dotnet restore tests/Releasy.Test
 
 build: restore ## Build the whole project
+	dotnet build src/Releasy.Common
 	dotnet build src/Releasy
 	dotnet build tests/Releasy.Test
 
@@ -16,6 +18,7 @@ tests-watch: ## Watch code changes and run unit tests
 	dotnet watch -p tests/Releasy.Test run -f netcoreapp3.0 -c release -- --colours 256
 
 clean: ## Clean the whole project
+	dotnet clean src/Releasy.Common
 	dotnet clean src/Releasy
 	dotnet clean tests/Releasy.Test
 

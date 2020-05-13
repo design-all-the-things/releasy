@@ -1,10 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <AssemblyName>Releasy</AssemblyName>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Releasy.Common/Releasy.Common.fsproj">
+      <Name>Releasy.Common.fsproj</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="web.config" />
     <Content Include="WebRoot/**/*">
