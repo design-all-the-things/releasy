@@ -48,7 +48,7 @@ let extractCardId (cardUri: Uri) =
 
 let toTrelloId featureId : CardShortId =
   featureId
-    |> Result.protect Uri 
+    |> Result.protect Uri
     |> either extractCardId (konst featureId)
 
 let makeLink (listCheckLists: Async<Result<CheckList array, TrelloError>>)
