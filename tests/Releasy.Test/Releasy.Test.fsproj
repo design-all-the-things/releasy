@@ -7,6 +7,9 @@
     <ProjectReference Include="../../src/Releasy/Releasy.fsproj">
       <Name>Releasy.fsproj</Name>
     </ProjectReference>
+    <ProjectReference Include="../../src/Releasy.Common/Releasy.Common.fsproj">
+      <Name>Releasy.Common.fsproj</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Development/Domain.Test.fs" />

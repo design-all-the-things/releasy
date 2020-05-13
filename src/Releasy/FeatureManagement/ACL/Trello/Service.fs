@@ -13,8 +13,7 @@ open Releasy.Common.Http
 open Releasy.Common.Regex
 
 type TrelloError =
-  | NetworkError of e:exn
-  | RequestError of message:string
+  | RequestError of HttpError
   | ConfigError of ConfigParseError
   | DecodeError of string
 
@@ -30,14 +29,30 @@ let readConfig =
     |> Async.result
 
 let listCheckLists (config : TrelloConfig) (featureId: CardShortId) =
-  Request.createUrl Get (sprintf "https://api.trello.com/1/cards/%s/checklists" featureId)
-    |> Request.queryStringItem "key" config.ApiKey
-    |> Request.queryStringItem "token" config.Token
-    |> tryGetResponse
-    |> Job.map (Choice.toResult >> (Result.mapError NetworkError))
-    |> JobResult.bind (bodyOn2xxOr3xx RequestError)
-    |> Job.map (Result.bind (Decode.fromString (Decode.array CheckList.Decode) >> Result.mapError DecodeError))
-    |> Job.toAsync
+  sprintf "https://api.trello.com/1/cards/%s/checklists" featureId
+    |> getHttp ["key", config.ApiKey; "token", config.Token]
+    |> AsyncResult.mapError RequestError
+    |> Async.map (Result.bind (Decode.fromString (Decode.array CheckList.Decode) >> Result.mapError DecodeError))
+
+let createFeatureProgressCheckList (config: TrelloConfig) (featureId: CardShortId) =
+  sprintf "https://api.trello.com/1/cards/%s/checklists" featureId
+    |> postHttp [
+        "name", FEATURE_PROGRESS_CHECKLIST_NAME;
+        "key", config.ApiKey;
+        "token", config.Token
+      ]
+    |> AsyncResult.mapError RequestError
+    |> Async.map (Result.bind (Decode.fromString CheckList.Decode >> Result.mapError DecodeError))
+
+let createCheckItem (config: TrelloConfig) (checkListId: CheckListId) (itemName: CheckItemName) =
+  sprintf "https://api.trello.com/1/checklists/%s/checkItems" checkListId
+    |> postHttp [
+        "name", itemName;
+        "key", config.ApiKey;
+        "token", config.Token
+      ]
+    |> AsyncResult.mapError RequestError
+    |> Async.map (Result.bind (Decode.fromString CheckItem.Decode >> Result.mapError DecodeError))
 
 let couple a = (a, a)
 
@@ -68,9 +83,13 @@ let makeLink (listCheckLists: CardShortId -> Async<Result<CheckList array, Trell
                           | checkList, None -> createCheckItem checkList.id mergeRequest.url.OriginalString)
     |> AsyncResult.map ignore
 
-let linkMergeRequestToFeatureInTrello = asyncResult {
+let doMakeLink config =
+  makeLink
+    (listCheckLists config)
+    (createFeatureProgressCheckList config)
+    (createCheckItem config)
+
+let linkMergeRequestToFeatureInTrello (mergeRequest: MergeRequest, feature: Feature) = asyncResult {
   let! config = readConfig
-  printfn "API KEY: %s" config.ApiKey
-  let! checkLists = listCheckLists config "6QrSHK8z"
-  printfn "checkList: %s" (checkLists |> Array.head |> (fun c -> c.name))
+  do! doMakeLink config (mergeRequest, toTrelloId feature.id)
 }
