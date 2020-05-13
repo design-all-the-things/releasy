@@ -1,7 +1,6 @@
 module Releasy.FeatureManagement.ACL.Trello.Service
 
 open System
-open System.Text.RegularExpressions
 open FsConfig
 open Releasy.FeatureManagement.Model
 open Hopac
@@ -11,6 +10,7 @@ open Releasy.FeatureManagement.ACL.Trello.Model
 open Thoth.Json.Net
 open FSharpPlus
 open Releasy.Common.Http
+open Releasy.Common.Regex
 
 type TrelloError =
   | NetworkError of e:exn
@@ -40,11 +40,6 @@ let listCheckLists (config : TrelloConfig) =
     |> Job.toAsync
 
 let couple a = (a, a)
-
-let (|Regex|_|) pattern input =
-    let regexMatch = Regex.Match(input, pattern, RegexOptions.IgnoreCase)
-    if regexMatch.Success then Some(List.tail [ for g in regexMatch.Groups -> g.Value ])
-    else None
 
 let extractCardId (cardUri: Uri) =
   match cardUri.OriginalString with
