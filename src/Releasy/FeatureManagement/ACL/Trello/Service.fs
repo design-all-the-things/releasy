@@ -29,8 +29,8 @@ let readConfig =
     |> Result.mapError ConfigError
     |> Async.result
 
-let listCheckLists (config : TrelloConfig) =
-  Request.createUrl Get "https://api.trello.com/1/cards/6QrSHK8z/checklists"
+let listCheckLists (config : TrelloConfig) (featureId: CardShortId) =
+  Request.createUrl Get (sprintf "https://api.trello.com/1/cards/%s/checklists" featureId)
     |> Request.queryStringItem "key" config.ApiKey
     |> Request.queryStringItem "token" config.Token
     |> tryGetResponse
@@ -51,16 +51,17 @@ let toTrelloId featureId : CardShortId =
     |> Result.protect Uri
     |> either extractCardId (konst featureId)
 
-let makeLink (listCheckLists: Async<Result<CheckList array, TrelloError>>)
+let makeLink (listCheckLists: CardShortId -> Async<Result<CheckList array, TrelloError>>)
              (createFeatureProgressCheckList: CardShortId -> Async<Result<CheckList, TrelloError>>)
              (createCheckItem: CheckListId -> CheckItemName -> Async<Result<CheckItem, TrelloError>>)
-             (mergeRequest: MergeRequest)
+             (mergeRequest: MergeRequest, featureId: CardShortId)
              : Async<Result<unit, TrelloError>> =
-  listCheckLists
+  featureId
+    |> listCheckLists
     |> AsyncResult.map (Array.tryFind isFeatureProgressCheckList)
     |> AsyncResult.bind (function
                           | Some checkList -> checkList |> AsyncResult.retn
-                          | None -> createFeatureProgressCheckList "6QrSHK8z")
+                          | None -> createFeatureProgressCheckList featureId)
     |> AsyncResult.map (couple >> mapItem2 (findCheckItem mergeRequest.url.OriginalString))
     |> AsyncResult.bind (function
                           | _, Some checkItem -> checkItem |> AsyncResult.retn
@@ -70,6 +71,6 @@ let makeLink (listCheckLists: Async<Result<CheckList array, TrelloError>>)
 let linkMergeRequestToFeatureInTrello = asyncResult {
   let! config = readConfig
   printfn "API KEY: %s" config.ApiKey
-  let! checkLists = listCheckLists config
+  let! checkLists = listCheckLists config "6QrSHK8z"
   printfn "checkList: %s" (checkLists |> Array.head |> (fun c -> c.name))
 }

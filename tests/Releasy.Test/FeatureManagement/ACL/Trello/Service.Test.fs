@@ -6,7 +6,6 @@ open Releasy.FeatureManagement.ACL.Trello.Service
 open Releasy.FeatureManagement.ACL.Trello.Model
 open Releasy.FeatureManagement.Model
 open FsToolkit.ErrorHandling
-open System.Threading.Tasks
 
 [<Tests>]
 let testsLinkMRToFeature =
@@ -46,46 +45,49 @@ let dummyCheckList : CheckList = {
   checkItems = [||];
 }
 
+let cardShortId = "INfJJRKk"
+let featureId = sprintf "https://trello.com/c/%s/1-link-mr-to-close-a-feature-using-closes-or-fixes" cardShortId
+
 [<Tests>]
 let testsLinkProcess =
   testList "makeLink" [
     testCase "should find Feature Progress checklist" <| fun _ ->
-      let listCheckLists = [|validCheckList|] |> Result.Ok |> Async.result
+      let listCheckLists = fun _ -> [|validCheckList|] |> Result.Ok |> Async.result
       let createCheckList = fun _ -> "createCheckList should not have been called"
                                       |> RequestError |> Result.Error |> Async.result
       let createCheckItem = fun _ _ -> "createCheckItem should not have been called"
                                       |> RequestError |> Result.Error |> Async.result
 
-      mergeRequest1
+      (mergeRequest1, cardShortId)
         |> makeLink listCheckLists createCheckList createCheckItem
         |> Async.RunSynchronously
         |> (fun result -> Expect.isOk result "The result should not be an error")
 
     testCase "should create Feature Progress checklist when no checklists in card" <| fun _ ->
-      let listCheckLists = [||] |> Result.Ok |> Async.result
-      let mutable checkListCreated = false
-      let createCheckList = fun _ ->
-        checkListCreated <- true
+      let listCheckLists = fun _ -> [||] |> Result.Ok |> Async.result
+      let mutable createdCheckListCard = ""
+      let createCheckList = fun cardId ->
+        createdCheckListCard <- cardId
         validCheckList |> Result.Ok |> Async.result
       let createCheckItem = fun _ _ -> mr42CheckItem |> Result.Ok |> Async.result
 
-      mergeRequest42
+      (mergeRequest42, cardShortId)
         |> makeLink listCheckLists createCheckList createCheckItem
         |> Async.RunSynchronously
         |> (fun result ->
           Expect.isOk result "The result should not be an error"
-          Expect.isTrue checkListCreated "check list should have been created"
+          Expect.equal createdCheckListCard cardShortId "check list should have been created"
         )
 
     testCase "should create Feature Progress checklist when not in card checklists at all" <| fun _ ->
-      let listCheckLists = [|dummyCheckList|] |> Result.Ok |> Async.result
+      let listCheckLists = fun _ -> [|dummyCheckList|] |> Result.Ok |> Async.result
       let mutable checkListCreated = false
       let createCheckList = fun _ ->
         checkListCreated <- true
         validCheckList |> Result.Ok |> Async.result
       let createCheckItem = fun _ _ -> mr42CheckItem |> Result.Ok |> Async.result
 
-      mergeRequest42
+      (mergeRequest42, cardShortId)
         |> makeLink listCheckLists createCheckList createCheckItem
         |> Async.RunSynchronously
         |> (fun result ->
@@ -94,7 +96,7 @@ let testsLinkProcess =
         )
 
     testCase "should add MR as a check item to Feature Progress checklist" <| fun _ ->
-      let listCheckLists = [|validCheckList|] |> Result.Ok |> Async.result
+      let listCheckLists = fun _ -> [|validCheckList|] |> Result.Ok |> Async.result
       let createCheckList = fun _ -> "createCheckList should not have been called"
                                       |> RequestError |> Result.Error |> Async.result
       let mutable checkItemCreated = false
@@ -102,7 +104,7 @@ let testsLinkProcess =
         checkItemCreated <- true
         mr42CheckItem |> Result.Ok |> Async.result
 
-      mergeRequest42
+      (mergeRequest42, cardShortId)
         |> makeLink listCheckLists createCheckList createCheckItem
         |> Async.RunSynchronously
         |> (fun result ->
@@ -111,13 +113,13 @@ let testsLinkProcess =
         )
 
     testCase "should fail when error on create check item for MR" <| fun _ ->
-      let listCheckLists = [|validCheckList|] |> Result.Ok |> Async.result
+      let listCheckLists = fun _ -> [|validCheckList|] |> Result.Ok |> Async.result
       let createCheckList = fun _ -> "createCheckList should not have been called"
                                       |> RequestError |> Result.Error |> Async.result
       let createCheckItem = fun _ _ -> "createCheckItem is in error"
                                       |> RequestError |> Result.Error |> Async.result
 
-      mergeRequest42
+      (mergeRequest42, cardShortId)
         |> makeLink listCheckLists createCheckList createCheckItem
         |> Async.RunSynchronously
         |> (fun result -> Expect.isError result "create check item has failed. The result should be in error")
