@@ -14,6 +14,7 @@ open System.Text
 open Releasy.Development.Domain
 open Releasy.Development.Model
 open Releasy.Development.ACL.Github
+open Releasy.FeatureManagement.Model
 open Releasy.FeatureManagement.ACL.Trello.Service
 
 // ---------------------------------
@@ -44,7 +45,11 @@ let computeGithubSignature (secret: string) (payload: string) : string =
 
 let printAndCallTrello (event : MRLinkedToFeature) = task {
     printfn "MRLinkedToFeature %s" event.featureIdentifier
-    return linkMergeRequestToFeatureInTrello
+    let mergeRequest = { url = event.mergeRequest.url }
+    let feature = { id = event.featureIdentifier }
+    return! (mergeRequest, feature)
+        |> linkMergeRequestToFeatureInTrello
+        |> Async.StartAsTask
 }
 
 let handlePostGithub (secret: string) (next : HttpFunc) (ctx : HttpContext) = task {
